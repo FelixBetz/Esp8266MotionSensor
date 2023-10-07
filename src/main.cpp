@@ -21,7 +21,10 @@
 /* Defines                                                                    */
 /*----------------------------------------------------------------------------*/
 #define SENSOR_NAME "motion_sensor_floor_01"
-#define SENSOR_NAME_FRIEDLY "Motion Sensor Floor";
+#define SENSOR_NAME_FRIEDLY "Motion Sensor Floor"
+
+#define MOTION_STATE_TOPIC "homeassistant/binary_sensor/" SENSOR_NAME "/state"
+#define MOTION_DISCOVERY_TOPIC "homeassistant/binary_sensor/" SENSOR_NAME "/config"
 
 #define MOTION_SENSOR_0_PIN 16 // D0 / GPIO16
 #define MOTION_SENSOR_1_PIN 5  // D1 / GPIO5
@@ -38,22 +41,14 @@
 /*----------------------------------------------------------------------------*/
 /* Variables                                                                  */
 /*----------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------*/
-/* Functions                                                                  */
-/*----------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------Local definitions------------------------------------------------------------------------------------------*/
-/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
 char g_ssid[] = WIFI_SSID;
 const char g_password[] = WIFI_PASSWORD;
 const char *g_mqtt_server = MQTT_SERVER;
 const char *g_mqttUser = MQTT_USER;
 const char *g_mqttPsw = MQTT_PASSWORD;
 int g_mqttPort = 1883;
-const char *device_name = "your_device_name";
-const char *discovery_topic = "homeassistant/sensor/your_sensor/config";
+const char *device_name = SENSOR_NAME;
+const char *discovery_topic = MOTION_DISCOVERY_TOPIC;
 
 unsigned long g_readSensorTime = 0;
 unsigned long g_cylicMqttTime = 0;
@@ -62,6 +57,10 @@ bool g_isMotionDetectedOld = false;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
+
+/*----------------------------------------------------------------------------*/
+/* Functions                                                                  */
+/*----------------------------------------------------------------------------*/
 
 //------------------------------------------------------------------------------
 //   setTimeout
@@ -96,13 +95,13 @@ void sendDiscoveryMessage()
   doc["name"] = SENSOR_NAME_FRIEDLY;
   doc["unique_id"] = SENSOR_NAME;
   doc["device_class"] = "motion";
-  doc["state_topic"] = "home/" SENSOR_NAME "/state";
+  doc["state_topic"] = MOTION_STATE_TOPIC;
   doc["expire_after"] = "60"; // expire after 60s
 
   String payload;
   serializeJson(doc, payload);
 
-  const char *discovery_topic = "homeassistant/binary_sensor/" SENSOR_NAME "/config";
+  const char *discovery_topic = MOTION_DISCOVERY_TOPIC;
   client.publish(discovery_topic, payload.c_str());
 }
 
@@ -111,7 +110,7 @@ void sendDiscoveryMessage()
 //------------------------------------------------------------------------------
 void mqttSendMotion(bool arg_isMotionDetected)
 {
-  const char *motion_topic = "home/" SENSOR_NAME "/state";
+  const char *motion_topic = MOTION_STATE_TOPIC;
   client.publish(motion_topic, arg_isMotionDetected ? "ON" : "OFF");
 
   Serial.print("Motion Detected: ");
