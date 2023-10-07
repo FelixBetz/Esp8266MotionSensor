@@ -1,0 +1,29 @@
+name: Build PlatformIO Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up PlatformIO
+      uses: platformio/platformio-action@v2
+      with:
+        platformio-version: '5.x' # Specify the version if needed
+
+    - name: Build Firmware
+      run: pio run -e nodemcuv2
+
+    - name: Archive Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: firmware
+        path: .pio/build/nodemcuv2/firmware.bin
