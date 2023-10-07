@@ -8,7 +8,10 @@ This project uses NodeMcu (ESP8266) to detect movement with 2 motion sensors (Ha
 - [2x Hailege AM312](https://www.amazon.de/Hailege-Pyroelectric-Sensor-Infrared-Detector/dp/B08C5572W4/ref=sr_1_5?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=motion+sensor+infrared&sr=8-5)
 
 ## Wiring
-
+- PowerSupply of the Motions Sensors: `3.3V`
+- First Motion Sensor (Out Pin) is connceted  `D0/GPIO16`
+- Second Motion Sensor (Out Pin) is connceted  `D1/GPIO5`
+![wiring image](doc/wiring.drawio.png) 
 ## Developing Environment
 
 - [VS Code](https://code.visualstudio.com/) is used as IDE
