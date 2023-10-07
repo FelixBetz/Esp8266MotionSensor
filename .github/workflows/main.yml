@@ -1,29 +1,24 @@
-name: Build PlatformIO Project
+name: PlatformIO CI
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.platformio/.cache
+          key: ${{ runner.os }}-pio
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install PlatformIO Core
+        run: pip install --upgrade platformio
 
-    - name: Set up PlatformIO
-      uses: platformio/platformio-action@v2
-      with:
-        platformio-version: '5.x' # Specify the version if needed
-
-    - name: Build Firmware
-      run: pio run -e nodemcuv2
-
-    - name: Archive Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: firmware
-        path: .pio/build/nodemcuv2/firmware.bin
+      - name: Build PlatformIO Project
+        run: pio run
