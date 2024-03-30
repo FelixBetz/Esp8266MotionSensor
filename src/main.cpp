@@ -28,6 +28,7 @@
 
 #define MOTION_SENSOR_0_PIN 16 // D0 / GPIO16
 #define MOTION_SENSOR_1_PIN 5  // D1 / GPIO5
+#define MOTION_SENSOR_2_PIN 4  // D2 / GPIO4
 
 #define MOTION_SENSOR_READ_MS 10
 #define MOTION_SENSOR_CYCLIC_MQTT_MS 10000
@@ -194,6 +195,7 @@ void setupMotionSensor()
 {
   pinMode(MOTION_SENSOR_0_PIN, INPUT);
   pinMode(MOTION_SENSOR_1_PIN, INPUT);
+  pinMode(MOTION_SENSOR_2_PIN, INPUT);
   g_isMotionDetectedOld = false;
   g_readSensorTime = setTimeout();
   g_cylicMqttTime = setTimeout();
@@ -230,7 +232,7 @@ void loop()
     {
       g_readSensorTime = setTimeout();
 
-      bool loc_isMotionDetected = digitalRead(MOTION_SENSOR_0_PIN) || digitalRead(MOTION_SENSOR_1_PIN);
+      bool loc_isMotionDetected = digitalRead(MOTION_SENSOR_0_PIN) || digitalRead(MOTION_SENSOR_1_PIN) || digitalRead(MOTION_SENSOR_2_PIN);
 
       if ((loc_isMotionDetected != g_isMotionDetectedOld) || isTimeoutExpired(g_cylicMqttTime, MOTION_SENSOR_CYCLIC_MQTT_MS))
       {
