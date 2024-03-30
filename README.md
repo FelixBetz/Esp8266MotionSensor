@@ -1,6 +1,6 @@
 # Esp8266MotionSensor
 
-This project uses NodeMcu (ESP8266) to detect movement with 2 motion sensors (Hailege AM312 ). The state of the motion sensor is sent via MQTT. The project is ready for Homeassistant auto discovery.
+This project uses `NodeMcu (ESP8266)` to detect movement with `3 motion sensors (Hailege AM312 )`. The state of the motion sensor is sent via `MQTT`. The project is ready for `Homeassistant` auto discovery.
 
 ## BOM (bill of materials)
 
@@ -9,8 +9,9 @@ This project uses NodeMcu (ESP8266) to detect movement with 2 motion sensors (Ha
 
 ## Wiring
 - PowerSupply of the Motions Sensors: `3.3V`
-- First Motion Sensor (Out Pin) is connceted  `D0/GPIO16`
-- Second Motion Sensor (Out Pin) is connceted  `D1/GPIO5`
+- First Motion Sensor (Out Pin) is connceted  to `D0/GPIO16`
+- Second Motion Sensor (Out Pin) is connceted  to `D1/GPIO5`
+- Third Motion Sensor (Out Pin) is connceted  to `D2/GPIO4`
 ![wiring image](doc/wiring.drawio.png) 
 ## Developing Environment
 
@@ -18,7 +19,7 @@ This project uses NodeMcu (ESP8266) to detect movement with 2 motion sensors (Ha
 - [PlatformIO](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide) extension for building/uploading code
 - 2 building enviorments:
   - `[env:nodemcuv2]`: using COM port to flash software
-  - `[env:nodemcuv2_ota]`: using [ArduinoOTA](https://github.com/JAndrassy/ArduinoOTA) to flash over the air
+  - `[env:nodemcuv2_ota]`: using [ArduinoOTA](https://github.com/JAndrassy/ArduinoOTA) to flash over the air via WiFi
 
 ## Features
 
@@ -56,5 +57,5 @@ This project uses NodeMcu (ESP8266) to detect movement with 2 motion sensors (Ha
     #define MQTT_PASSWORD ""
    ```
 
-3. selected `[env:nodemcuv2]` enviroment
+3. select `[env:nodemcuv2]` enviroment
 4. `build` and `upload`
